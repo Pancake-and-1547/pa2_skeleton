@@ -157,8 +157,22 @@ def _flood_fill(
         component_cells: Accumulates (r, c) of every reachable cell.
         component_labels: Accumulates 'A'-'Z' labels found in the component.
     """
-    pass
-
+    coordinate = (r, c)
+    # 检测是否超出地图范围
+    if r < 0 or r >= height or c < 0 or c >= width:
+        return None
+    # 检测是否已经在 visited, walls, doors, if yes, return
+    if visited[r, c] or walls[r, c] or doors[r, c]:
+        return None
+    visited[r, c] = True
+    component_cells.append(coordinate)
+    # 检测是不是字母标签
+    if grid[r, c] >= 'A' and grid[r, c] <= 'Z':
+        component_labels.append(grid[r, c])
+    _flood_fill(r - 1, c, height, width, visited, walls, doors, grid, component_cells, component_labels)  # up
+    _flood_fill(r + 1, c, height, width, visited, walls, doors, grid, component_cells, component_labels)  # down
+    _flood_fill(r, c - 1, height, width, visited, walls, doors, grid, component_cells, component_labels)  # left
+    _flood_fill(r, c + 1, height, width, visited, walls, doors, grid, component_cells, component_labels)  # right
 
 def _assign_room_types(
     height: int,
