@@ -3,3 +3,4 @@
 /assets/
 /encrypted_solution/
 /fix/
+*.pyc

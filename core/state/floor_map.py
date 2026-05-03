@@ -35,8 +35,6 @@ def check_doors(
     walls: np.ndarray,
 ) -> bool:
     """
-    Task 1.1.
-
     Validate that every door cell satisfies the placement rule: it must have
     walls or other doors on exactly two opposite sides (top+bottom or
     left+right).
@@ -71,7 +69,32 @@ def check_doors(
     Returns:
         True if all doors are valid; False if any door violates the rule.
     """
-    pass
+    door_positions = np.argwhere(doors)  # 获取所有门的位置
+
+    for x, y in door_positions:
+        count = 0
+
+        # 检查上下左右是否被墙或门包围
+        if x > 0 and (walls[x - 1, y] or doors[x - 1, y]):
+            count += 1
+        if x < height - 1 and (walls[x + 1, y] or doors[x + 1, y]):
+            count += 1
+        if y > 0 and (walls[x, y - 1] or doors[x, y - 1]):
+            count += 1
+        if y < width - 1 and (walls[x, y + 1] or doors[x, y + 1]):
+            count += 1
+
+        # 检查两个包围物
+        if count != 2:
+            return False
+
+        if not (
+            (x > 0 and x < height - 1 and (walls[x - 1, y] or doors[x - 1, y]) and (walls[x + 1, y] or doors[x + 1, y]))
+            or (y > 0 and y < width - 1 and (walls[x, y - 1] or doors[x, y - 1]) and (walls[x, y + 1] or doors[x, y + 1]))):
+            return False
+
+    return True
+
 
 
 def _flood_fill(
