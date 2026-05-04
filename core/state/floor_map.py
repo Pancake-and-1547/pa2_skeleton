@@ -228,7 +228,15 @@ def _assign_room_types(
         doors: H x W boolean array for door cells.
         grid: Raw character grid.
     """
-    pass
+    room_types.shape = (height, width)
+    for r in range(height):
+        for c in range(width):
+            visited = visited * 0  # reset visited for each component
+            component_cells = []
+            component_labels = []
+            _flood_fill(r, c, height, width, visited, walls, doors, grid, component_cells, component_labels)
+            room_types[r, c] = min(component_labels) if component_labels else 'x'
+
 
 
 def get_conductivity_mask(
