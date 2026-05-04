@@ -89,8 +89,10 @@ class ACUnit:
             Energy consumption (float, arbitrary units) per simulated minute.
             0.0 when off; proportional to power_level otherwise.
         """
-        pass
-    
+        if self.mode == self.MODE_OFF or self.power_level == 0:
+            return 0.0
+        return self.power_level * self.ENERGY_COST_PER_LEVEL
+
     def copy(self) -> "ACUnit":
         """
         Provided function.
