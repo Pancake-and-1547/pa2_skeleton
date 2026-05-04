@@ -67,7 +67,13 @@ class ACUnit:
             Temperature change (float, °C) for one simulated minute.
             Negative for cooling, positive for heating, 0.0 when off.
         """
-        pass
+        if self.mode == self.MODE_OFF or self.power_level == 0:
+            return 0.0
+        delta = self.power_level * self.TEMP_CHANGE_PER_LEVEL
+        if self.mode == self.MODE_COOL:
+            return -delta
+        elif self.mode == self.MODE_HEAT:
+            return delta
 
     def get_energy_consumption(self) -> float:
         """
