@@ -60,7 +60,12 @@ def _build_weight_lookup(room_weights: dict[str, float]) -> np.ndarray:
     Returns:
         Lookup array of size 256, dtype float.
     """
-    pass
+    lookup = np.zeros(256, dtype = float)
+    room_chars = np.array(list(room_weights.keys()), dtype="S1")
+    room_codes = room_chars.view(np.uint8)
+    weights = np.array(list(room_weights.values()), dtype=float)
+    lookup[room_codes] = weights
+    return lookup
 
 
 def get_room_type_weight_mask(
