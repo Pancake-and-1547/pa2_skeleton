@@ -108,7 +108,9 @@ def get_room_type_weight_mask(
         NumPy array of weights with shape H x W.
         Cells with room type 'x' get a weight of 0.0.
     """
-    pass
+    lookup = _build_weight_lookup(room_weights)
+    room_type_codes = _room_types_to_ascii(floor_map.room_types)
+    return lookup[room_type_codes]
 
 
 def compute_comfort_score(
