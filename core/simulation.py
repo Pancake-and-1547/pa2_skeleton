@@ -56,7 +56,12 @@ def _ac_injection(
         (updated_temperature_field, energy_dict), where energy_dict maps
         each AC's name to its energy consumed this minute.
     """
-    pass
+    updated_temperature_field = temperature_field.copy()
+    energy_dict = {}
+    for ac in ac_units:
+        updated_temperature_field[ac.row, ac.col] += ac.get_temperature_change()
+        energy_dict[ac.name] = ac.get_energy_consumption()
+    return (updated_temperature_field, energy_dict)
 
 
 class Simulator:
