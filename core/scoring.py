@@ -161,7 +161,12 @@ def compute_comfort_score(
     Returns:
         Weighted comfort score (float). Can be negative if deviations are large.
     """
-    pass
+    weight_mask = get_room_type_weight_mask(floor_map, room_weights)
+    weighted_sq_error = np.sum(weight_mask * (temperature_field - setpoint_temp) ** 2)
+    total_weight = np.sum(weight_mask)
+    mean_sq_error = weighted_sq_error / total_weight
+    comfort_score = 100.0 - 10.0 * mean_sq_error
+    return comfort_score
 
 
 class Scoring:
